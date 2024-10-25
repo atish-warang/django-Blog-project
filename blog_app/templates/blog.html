@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block start %}
+
+<div class="container mt-3">
+    <!-- Sorting  -->
+    <!--  
+    <div class="sorting-options">
+        <a href="?sort=-created_at" class="btn btn-secondary">Sort by Recent</a>
+        <a href="?sort=created_at" class="btn btn-secondary">Sort by Oldest</a>
+        <a href="?sort=title" class="btn btn-secondary">Sort by Title</a>
+    </div> -->
+
+    <!-- Search Form -->
+    <form class="d-flex" method="GET" action="{% url 'search' %}" role="search">
+        <input class="form-control me-sm-2 w-100 mb-3 bg-dark text-white" 
+               type="search" name="query" placeholder="Search" value="{{ query|default_if_none:'' }}">
+        <button class="btn btn-secondary mb-3" type="submit">Search</button>
+    </form>
+
+    <!-- Search Results -->
+    {% if blogs %}
+        {% for blog in blogs %}
+        <div class="row mt-2 bg-dark-subtle">
+            <div class="col-md-3 p-3">
+                <img src="/media/{{ blog.image }}" class="img-thumbnail" alt="" style="height: 200px;">
+            </div>
+            <div class="col-md-9 p-3">
+                <h4 class="text-dark">{{ blog.title|title }}</h4>
+                <p class="col-12 text-truncate">
+                    {{ blog.content|safe|truncatechars:100 }}
+                </p>
+                <p>{{ blog.created_at }}</p>
+                <p class="text-dark">By {{blog.author.username}}</p>
+                {% comment %} <a class="btn btn-dark text-light" href="{% url 'blog_details' slug %}" role="button">See More..</a> {% endcomment %}
+                <a class="btn btn-dark text-light" href="{% url 'blog_details' blog.slug %}" role="button">See More..</a>
+            </div>
+        </div>
+        <hr class="divider">
+        {% endfor %}
+    {% else %}
+        <p class="text-center mt-5">No results found.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+
+{% block start %}
+
+<div class="container">
+    <div class="row">
+      <h1 class="text-primary mt-2 text-center">Edit {{user.username|title }} Profile's</h1>
+      <hr>
+        <div class="col-md-12">
+            <form method="post" enctype="multipart/form-data" class="row g-2 my-2">  <!-- Important for file uploads -->
+              {% csrf_token %}
+              
+              <!--<div class="col-md-6">
+                <label for="first_name" class="form-label">First Name</label>
+                <input type="text" name="first_name" id="first_name" class="form-control" placeholder="First Name">
+              </div>
+              <div class="col-md-6">
+                <label for="last_name" class="form-label">Last Name</label>
+                <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Last Name">
+              </div>-->
+
+              {% for field in form %}
+              
+              <div class="col-md-12">
+                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                  <div class="text-danger small">
+                    {{ field.errors|join:", " }}
+                  </div>
+                {% endif %}
+              </div>
+              {% endfor %}
+                
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+              </div>
+            </form>
+        </div>
+    </div>
+<div>
+
+{% endblock %}

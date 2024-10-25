@@ -1,0 +1,165 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg bg-primary px-5 shadow" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/"><strong>My Blog</strong></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav me-auto text-decoration-none">
+
+          <li class="nav-item">
+            <a
+            {% if request.path == '/' %} 
+              class="nav-link active"
+            {% else %}
+              class="nav-link"
+            {% endif %}
+              href="/">Home
+              <span class="visually-hidden">(current)</span>
+            </a>
+          </li>
+
+          {% if user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link active" href="/admin">Admin</a>
+          </li>
+          {% endif %}
+
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a
+              {% if request.path == '/blog/' %} 
+              class="nav-link active"
+              {% else %}
+              class="nav-link"
+              {% endif %}
+              href="{% url 'blog'  %}">Blogs</a>
+            </li>
+          {% endif %}
+
+          <li class="nav-item">
+            <a 
+            {% if request.path == '/about/' %}
+            class="nav-link active" 
+            {% else %}
+            class="nav-link" 
+            {% endif %}
+            href="{% url 'about' %}">About</a>
+          </li>
+
+          <li class="nav-item">
+            <a 
+            {% if request.path == '/contact-us/' %}
+            class="nav-link active" 
+            {% else %}
+            class="nav-link"
+            {% endif %}
+            href="{% url 'contact_us' %}">Contact Us</a>
+          </li>
+
+          <!--Sorting start-->
+          {% comment %} {% if user.is_authenticated %}
+          <li>
+            <div class="dropdown pt-2 ps-2">
+              <a class="bdropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                Sort By
+              </a>
+              <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownMenuButton1">
+                <li>
+                  <a href="{% url 'blog' %}?sort=created_at&order=asc" class="dropdown-item {% if request.GET.sort == 'created_at' and request.GET.order == 'asc' %}font-weight-bold{% endif %}">Older Blogs</a>
+                </li>
+                <li>
+                  <a href="{% url 'blog' %}?sort=created_at&order=desc" class="dropdown-item {% if request.GET.sort == 'created_at' and request.GET.order == 'desc' %}font-weight-bold{% endif %}">Recent Blogs</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          {% endif %} {% endcomment %}
+          <!---Sorting end-->
+
+
+          <!-- <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="/blog/" role="button" aria-haspopup="true" aria-expanded="false">Blogs</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">Food</a>
+              <a class="dropdown-item" href="#">Fitness</a>
+              <a class="dropdown-item" href="#">Travel</a>
+              <a class="dropdown-item" href="#">Life Style</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Separated link</a>
+            </div>
+          </li> -->
+        </ul>
+
+        <div>
+          {% if user.is_authenticated %}
+          <div class="dropdown btn-group dropdown text-bg-primary">
+            <a class="text-decoration-none text-light fs-5 dropdown-toggle pe-3" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-bars"></i>  
+            </a>
+          
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <li>
+                <a class="dropdown-item" href="{% url "create_blog" %}">
+                  <i class="fa-solid fa-plus"></i> Create Blog
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'profile' %}">
+                  <i class="fa-solid fa-user"></i> Profile
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'edit_profile' %}">
+                  <i class="fa-solid fa-pen-to-square"></i> Edit Profile
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'change_password' %}">
+                  <i class="fa-solid fa-lock"></i> change Password
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
+                  <i class="fa-solid fa-user-xmark"></i> Delete Profile
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'user_logout' %}">
+                  <i class="fa-solid fa-right-from-bracket"></i> logout
+                </a>
+              </li>
+            </ul>
+            {% comment %} <h4 class="text-light">{{user.username|title}}</h4> {% endcomment %}
+          </div>
+          {% else %}
+
+            <a class="btn btn-secondary my-2 my-sm-0 ms-3" href="/login" >Login</a>
+
+            <a class="btn btn-secondary my-2 my-sm-0 ms-3" href="/register" type="submit">Sign Up</a>
+
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+<!-- Modal for Delete Profile Confirmation -->
+<div class="modal fade" id="deleteProfileModal" tabindex="-1" aria-labelledby="deleteProfileModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteProfileModalLabel">Confirm Profile Deletion for {{user.username}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete your profile? This action will completely delete all your blog and cannot be undone after deleted. 
+      </div>
+      <div class="modal-footer">
+        <a href="{% url 'delete_user' %}" class="btn btn-danger">Yes, I'm sure</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block start %}
+
+<div class="container mt-5">
+  <div class="row">
+
+    <div class="col-md-4">
+      {% if user.profile.profile_pic %}
+      <img src="{{user.profile.profile_pic.url}}" class="img-fluid mb-3 rounded-circle" style="height: 330px;" alt="Add Your Profile pic">
+      {% else %}
+      <img src="{% static 'images/default_profile_pic.jpeg' %}" class="img-fluid mb-3 rounded-circle" style="height: 330px;">
+      {% endif %}
+    </div>
+
+    <div class="col-md-8 mt-3">
+
+      <h1 class="text-center text-dark">{{user.username|title}}</h1>
+      <hr class="dropdown-divider mb-4">
+      <h5><i>@{{user.username|lower}}</i></h5>
+      <p> <strong>Bio :</strong> {{user.profile.bio}}</p>
+      <!--
+      <a href="{% url 'edit_profile' %}" class="btn btn-success me-2">Edit Profile</a>
+      <a href="#" class="btn btn-primary me-2">change Password</a>
+      <a href="#" class="btn btn-danger me-2">Delete Profile</a
+      >-->
+
+      <div class="my-3">
+        {% if user.profile.facebook_url %}
+        <a class="btn btn-outline-info me-2" href="{{user.profile.facebook_url}}" target="_blank" role="button"><i class="fa-brands fa-facebook"></i></a>
+        {% endif %}
+
+        {% if user.profile.instagram_url %}
+        <a class="btn btn-outline-secondary me-2" href="{{user.profile.instagram_url}}" target="_blank" role="button"><i class="fa-brands fa-instagram"></i></a>
+        {% endif %}
+
+        {% if user.profile.linkedin_url %}
+        <a class="btn btn-outline-info me-2" href="h{{user.profile.linkedin_url}}" target="_blank" role="button"><i class="fa-brands fa-linkedin"></i></a>
+        {% endif %}
+
+        {% if user.profile.threads_url %}
+        <a class="btn btn-outline-dark me-2" href="{{user.profile.threads_url}}" target="_blank" role="button"><i class="fa-brands fa-threads"></i></a>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+  <hr class="dropdown-divider mb-4">
+
+
+  <!-- BLOG POST Section-->
+  <div class="row mb-3">
+    <h1>My Blog Post's</h1>
+    {% for blog in personal_blog %}
+        {% if user.username == blog.author.username %}
+
+        <div class="col-md-4">
+            <div class="card mt-4">
+                <img src="/media/{{blog.image}}" class="card-img-top" height="200" >
+                <div class="card-body">
+                    <h5 class="card-title">{{blog.title}}</h5>
+                    {% comment %} <p class="card-text">{{blog.content|truncatechars:10|safe}}</p> {% endcomment %}
+                    <a href="{% url 'blog_details' blog.slug %}" class="btn btn-primary">See More..</a>
+                
+                </div>
+            </div>
+        </div>
+      
+        {% endif %}
+    {% endfor %}
+  </div>
+</div>
+  
+ 
+
+{% endblock %}
+
+

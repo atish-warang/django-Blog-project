@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block start %}
+
+<div class="container my-4 rounded-2 text-dark p-4 bg-dark-subtle">
+    {% for blog in blogs %}
+    <div class="row pt-2">
+        <div class="col-md-12 text-center">
+            <h1 class="my-4 text-dark">{{blog.title}}</h1>           
+           {% comment %} <img src="{% static 'images/mountainroad.jpg' %}" class="img-fluid rounded-3 text-center" alt="..."> {% endcomment %}
+            <figure class="figure px-5 mt-4">
+                <img src="/media/{{blog.image}}" class="figure-img img-fluid rounded" alt="..." height=""> 
+            </figure>
+            <h5 class="text-dark">
+                Blog is create by 
+                <a href="{% url "user_profile" blog.author.id %}" class="text-decoration-none text-dark"><strong>@{{blog.author.username}}</strong></a>
+            </h5>
+        </div>
+    </div>    
+    <div class="row mt-3">
+        <div class="col-md-12">            
+            <p>{{blog.content|safe}}</p>
+        </div>       
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

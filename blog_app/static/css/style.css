@@ -1,0 +1,11 @@
+.dropdown .dropdown-menu {
+    left: 0; /* Default for mobile */
+  }
+  
+  @media (min-width: 768px) {
+    .dropdown .dropdown-menu {
+      right: 0; /* Align right for larger screens */
+      left: auto; /* Clear left */
+    }
+  }
+  

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block start %}
+
+<div class="container">
+    <div class="row mt-3 justify-content-center">
+        <div class="col-md-12 mb-5">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset>
+                    <h1 class="text-center text-primary" >Create a Blog</h1>
+                    {% comment %} <legend>Create a Blog</legend> {% endcomment %}
+                    {% comment %} <div>
+                        <label for="exampleInputEmail1" class="form-label mt-4">Email address</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div> {% endcomment %}
+
+                    <div class="mb-3">
+                        <label for="title" class="form-label mt-4">Title :</label>
+                        <input type="text" name="title" class="form-control" id="exampleInputPassword1" placeholder="Enter Title" autocomplete="off">
+                    </div>
+
+                    {% comment %} <div class="mb-3">
+                        <label for="author" class="form-label mt-4">Author name :</label>
+                        <input type="text" name="author" class="form-control" id="exampleInputPassword1" placeholder="Enter author name" autocomplete="off">
+                    </div> {% endcomment %}
+
+                    <div class="mb-3">
+                        <label for="categories" class="form-label">Choose type of Blog :</label>
+                        <select name="categories" id="categories" class="form-select" aria-label="Default select example">
+                            <option selected>Choose</option>
+                            <option value="personal">PERSONAL</option>
+                            <option value="Professional">PROFESSIONAL</option>
+                            <option value="Niche">NICHE BLOG</option>
+                            <option value="business">BUSINESS</option>
+                            <option value="educational">EDUCATIONAL</option>
+                            <option value="technology">TECHNOLOGY</option>
+                            <option value="lifestyle">LIFESTYLE</option>
+                            <option value="Review">REVIEW</option>
+                            <option value="Creative">CREATIVE</option>
+                            <option value="News">NEWS</option>
+                            <option value="others">OTHERS</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        {{form.media}}
+                        {{form.as_p}}
+                    </div>
+
+                    <div>
+                        <label for="image" class="form-label">Image :</label>
+                        <input name='image' class="form-control" type="file" id="image">
+                    </div>
+                                        
+                    <button type="submit" class="btn btn-primary mt-3">Post Blog</button>
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
